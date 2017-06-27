@@ -1,3 +1,6 @@
+.PHONY: install
+install: ~/.inputrc ~/.xsessionrc
+
 ~/.inputrc: inputrc
 	cp inputrc ~/.inputrc
 
