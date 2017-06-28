@@ -1,0 +1,68 @@
+#!/bin/bash
+# some of my own additions
+
+set -o vi
+
+if [[ ${DISPLAY} ]]; then
+  setxkbmap -option ctrl:nocaps
+  export BROWSER=firefox
+fi
+
+shopt -s autocd
+shopt -s globstar
+
+export CDPATH='.:~'
+export PAGER='less -X'
+
+# git
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+
+function swiss_army_prompt()
+{
+  # preserve for later
+  local errorcode=$?
+
+  # colors, made to look nice with gnome-terminal-colors-solarized
+  local blue="\[\e[0;34m\]"
+  local gold="\[\e[0;33m\]"
+  local green="\[\e[0;32m\]"
+  local red="\[\e[1;31m\]"
+  local white="\[\e[0;37m\]"
+  local bleach="\[\e[0m\]"
+  # erase prompt
+  PS1=''
+
+  # indicate vim running in the background
+  if [ $VIM ]; then
+    PS1="${gold}=vim=${bleach}"
+  fi
+
+  # indicate background jobs
+  local numjobs=$(jobs | wc -l)
+  if [ ${numjobs} -ne 0 ]; then
+    PS1="${PS1}[${blue}${numjobs}${bleach}]"
+  fi
+
+  # indicate error of last command
+  if [ ${errorcode} -ne 0 ]; then
+    PS1="${PS1}${white}>>${red}${errorcode}${white}<<${bleach}"
+  fi
+
+  # main thing: debian_chroot, path, __git_ps1 and $
+  PS1="${debian_chroot:+($debian_chroot)}${PS1}\w${green}$(__git_ps1)${bleach}\$ "
+
+  # set title bar of xterm
+  case "$TERM" in
+  xterm*|rxvt*)
+      PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]${PS1}"
+    ;;
+  *)
+    ;;
+  esac
+
+  #restore error code for subsequent $?
+  return ${errorcode}
+}
+PROMPT_COMMAND=swiss_army_prompt
