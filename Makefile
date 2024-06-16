@@ -1,13 +1,8 @@
-.PHONY: install
-install: install_inputrc install_xsessionrc install_bash
+.PHONY: install install_bash
+install: install_bash
 
-install_inputrc: inputrc
-	cp inputrc ~/.inputrc
-
-install_xsessionrc: xsessionrc
-	cp xsessionrc ~/.xsessionrc
-
-install_bash: bashrc more_bashrc bash_aliases
+install_bash: bashrc bashrc.d/*
 	cp bashrc ~/.bashrc
-	cp more_bashrc ~/.more_bashrc
-	cp bash_aliases ~/.bash_aliases
+	mkdir -p ~/.bashrc.d
+	cp bashrc.d/* ~/.bashrc.d/
+	#cp bash_aliases ~/.bash_aliases
