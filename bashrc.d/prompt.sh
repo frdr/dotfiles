@@ -21,18 +21,19 @@ function swiss_army_prompt()
   PS1=''
 
   # indicate vim running in the background
-  if [ $VIM ]; then
+  if [[ -v VIM ]]; then
     PS1="\[\e[0;33m\]=vim=\[\e[0m\]"
   fi
 
   # indicate background jobs
-  local numjobs=$(jobs | wc -l)
-  if [ ${numjobs} -ne 0 ]; then
+  local numjobs
+  numjobs=$(jobs | wc -l)
+  if [[ ${numjobs} -ne 0 ]]; then
     PS1="${PS1}[\[\e[0;34m\]${numjobs}\[\e[0m\]]"
   fi
 
   # indicate error of last command
-  if [ ${_errorcode} -ne 0 ]; then
+  if [[ ${_errorcode} -ne 0 ]]; then
     PS1="${PS1}\[\e[0;37m\]>>\[\e[1;31m\]${_errorcode}\[\e[0;37m\]<<\[\e[0m\]"
   fi
 
