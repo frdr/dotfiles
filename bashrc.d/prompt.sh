@@ -37,6 +37,13 @@ function swiss_army_prompt()
     PS1="${PS1}\[\e[0;37m\]>>\[\e[1;31m\]${_errorcode}\[\e[0;37m\]<<\[\e[0m\]"
   fi
 
+  # user name and host if different from defaults
+  local _host
+  _host=$(hostname)
+  if [[ $USER != "${_bashrc_d_install_user:-}" || $_host != "${_bashrc_d_install_host:-}" ]]; then
+      PS1="${PS1}${USER}@${_host}"
+  fi
+
   # main thing: path, __git_ps1 and $
   PS1="${PS1}\w\[\e[0;32m\]$(__git_ps1)\[\e[0m\]\$ "
 
