@@ -8,7 +8,7 @@ source /usr/share/git/completion/git-prompt.sh
 function swiss_army_prompt()
 {
   # preserve for later
-  local errorcode=$?
+  local _errorcode=$?
 
   # colors, made to look nice with gnome-terminal-colors-solarized
   # local blue="\[\e[0;34m\]"
@@ -32,8 +32,8 @@ function swiss_army_prompt()
   fi
 
   # indicate error of last command
-  if [ ${errorcode} -ne 0 ]; then
-    PS1="${PS1}\[\e[0;37m\]>>\[\e[1;31m\]${errorcode}\[\e[0;37m\]<<\[\e[0m\]"
+  if [ ${_errorcode} -ne 0 ]; then
+    PS1="${PS1}\[\e[0;37m\]>>\[\e[1;31m\]${_errorcode}\[\e[0;37m\]<<\[\e[0m\]"
   fi
 
   # main thing: path, __git_ps1 and $
@@ -49,6 +49,6 @@ function swiss_army_prompt()
   esac
 
   #restore error code for subsequent $?
-  return ${errorcode}
+  return ${_errorcode}
 }
 PROMPT_COMMAND=swiss_army_prompt
