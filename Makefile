@@ -1,13 +1,34 @@
-.PHONY: install
-install: install_inputrc install_xsessionrc install_bash
+_user := $(shell whoami)
+_hostname := $(shell hostname)
 
-install_inputrc: inputrc
-	cp inputrc ~/.inputrc
+.PHONY: help install install_bash clean
+help:
+	@echo "use the \"install\" target to copy config files into your user's home."
+	@echo "existing files will be overwritten."
+	@echo "the \"clean\" target will delete you ~/.bashrc - use with caution."
 
-install_xsessionrc: xsessionrc
-	cp xsessionrc ~/.xsessionrc
+install: install_bash
 
-install_bash: bashrc more_bashrc bash_aliases
+~/.bashrc: bashrc
 	cp bashrc ~/.bashrc
-	cp more_bashrc ~/.more_bashrc
-	cp bash_aliases ~/.bash_aliases
+
+~/.bashrc.d:
+	mkdir -p ~/.bashrc.d
+
+~/.bashrc.d/%.sh: bashrc.d/%.sh ~/.bashrc.d 
+	cp $< $@
+
+~/.bashrc.d/prompt.sh: bashrc.d/prompt.sh ~/.bashrc.d 
+	sed -e "s/\$${_bashrc_d_install_user:-}/$(_user)/" \
+		-e "s/\$${_bashrc_d_install_host:-}/$(_hostname)/" < $< > $@
+
+install_bash: ~/.bashrc \
+	~/.bashrc.d/0options.sh \
+	~/.bashrc.d/browser.sh \
+	~/.bashrc.d/exports.sh \
+	~/.bashrc.d/nocaps.sh \
+	~/.bashrc.d/prompt.sh 
+
+clean: 
+	rm ~/.bashrc
+	rm -rf ~/.bashrc.d
