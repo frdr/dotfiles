@@ -1,13 +1,11 @@
-_user := $(shell whoami)
-_hostname := $(shell hostname)
-
-.PHONY: help install install_bash link_dotfiles clean
+.PHONY: help
 help:
 	@echo "use the \"install\" target to copy config files into your user's home."
 	@echo "existing files will be overwritten."
-	@echo "the \"clean\" target will delete you ~/.bashrc - use with caution."
+	@echo "the \"clean\" target will delete your ~/.bashrc - use with caution."
 
-install: install_bash link_dotfiles
+.PHONY: install
+install: install_bash link_dotfiles git_ignore
 
 ~/.bashrc: bashrc
 	cp bashrc ~/.bashrc
@@ -18,10 +16,13 @@ install: install_bash link_dotfiles
 ~/.bashrc.d/%.sh: bashrc.d/%.sh ~/.bashrc.d
 	cp $< $@
 
+_user := $(shell whoami)
+_hostname := $(shell hostname)
 ~/.bashrc.d/prompt.sh: bashrc.d/prompt.sh ~/.bashrc.d
 	sed -e "s/\$${_bashrc_d_install_user:-}/$(_user)/" \
 		-e "s/\$${_bashrc_d_install_host:-}/$(_hostname)/" < $< > $@
 
+.PHONY: install_bash
 install_bash: ~/.bashrc \
 	~/.bashrc.d/0options.sh \
 	~/.bashrc.d/browser.sh \
@@ -32,8 +33,19 @@ install_bash: ~/.bashrc \
 ~/.%: dot/%
 	ln --symbolic --relative $< $@
 
+.PHONY: link_dotfiles
 link_dotfiles: ~/.editorconfig
 
+_gitignore := ~/.config/git/ignore
+_ignore_pat := '.*.sw[po]'
+.PHONY: git_ignore
+git_ignore:
+	mkdir -p `basename $(_gitignore)`
+	touch $(_gitignore)
+	grep --quiet --fixed-strings $(_ignore_pat) $(_gitignore) || \
+		echo $(_ignore_pat) >> $(_gitignore)
+
+.PHONY: clean
 clean:
 	rm -rf ~/.bashrc.d
 	rm -f ~/.bashrc
