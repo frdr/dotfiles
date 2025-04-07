@@ -7,7 +7,7 @@ help:
 .PHONY: install
 install: install_bash link_dotfiles git_ignore
 
-~/.bashrc: bashrc
+~/.bashrc: dot/bashrc
 	cp bashrc ~/.bashrc
 
 ~/.bashrc.d:
@@ -22,24 +22,24 @@ _hostname := $(shell hostname)
 	sed -e "s/\$${_bashrc_d_install_user:-}/$(_user)/" \
 		-e "s/\$${_bashrc_d_install_host:-}/$(_hostname)/" < $< > $@
 
+~/.%: dot/%
+	ln --symbolic --relative $< $@
+
 .PHONY: install_bash
-install_bash: ~/.bashrc \
+install_bash: ~/.bashrc.d \
 	~/.bashrc.d/0options.sh \
 	~/.bashrc.d/browser.sh \
 	~/.bashrc.d/exports.sh \
 	~/.bashrc.d/nocaps.sh \
 	~/.bashrc.d/prompt.sh
 
-~/.%: dot/%
-	ln --symbolic --relative $< $@
-
 .PHONY: link_dotfiles
-link_dotfiles: ~/.editorconfig
+link_dotfiles: ~/.editorconfig ~/.bashrc
 
 _gitignore := ~/.config/git/ignore
 _ignore_pat := '.*.sw[po]'
 .PHONY: git_ignore
-git_ignore:
+git_ignore: $(gitignore)
 	mkdir -p `basename $(_gitignore)`
 	touch $(_gitignore)
 	grep --quiet --fixed-strings $(_ignore_pat) $(_gitignore) || \
