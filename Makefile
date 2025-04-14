@@ -30,6 +30,7 @@ install_bash: ~/.bashrc.d \
 	~/.bashrc.d/0options.sh \
 	~/.bashrc.d/browser.sh \
 	~/.bashrc.d/exports.sh \
+	~/.bashrc.d/gitalias.sh \
 	~/.bashrc.d/nocaps.sh \
 	~/.bashrc.d/prompt.sh
 
