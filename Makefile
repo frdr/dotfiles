@@ -5,10 +5,7 @@ help:
 	@echo "the \"clean\" target will delete your ~/.bashrc - use with caution."
 
 .PHONY: install
-install: install_bash link_dotfiles git_ignore
-
-~/.bashrc: dot/bashrc
-	cp bashrc ~/.bashrc
+install: install_bash copy_dotfiles git_ignore
 
 ~/.bashrc.d:
 	mkdir -p ~/.bashrc.d
@@ -23,7 +20,7 @@ _hostname := $(shell hostname)
 		-e "s/\$${_bashrc_d_install_host:-}/$(_hostname)/" < $< > $@
 
 ~/.%: dot/%
-	ln --symbolic --relative $< $@
+	cp $< $@
 
 .PHONY: install_bash
 install_bash: ~/.bashrc.d \
@@ -34,8 +31,8 @@ install_bash: ~/.bashrc.d \
 	~/.bashrc.d/nocaps.sh \
 	~/.bashrc.d/prompt.sh
 
-.PHONY: link_dotfiles
-link_dotfiles: ~/.editorconfig ~/.bashrc
+.PHONY: copy_dotfiles
+copy_dotfiles: ~/.editorconfig ~/.bashrc
 
 _gitignore := ~/.config/git/ignore
 _ignore_pat := '.*.sw[po]'
