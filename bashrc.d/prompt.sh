@@ -10,7 +10,7 @@ function __preamble_ps1() {
     local _errorcode=$?
 
     if [[ ${_errorcode} -ne 0 ]]; then
-        __error_ps1="🙀 ${_errorcode} "
+        __error_ps1="🙀${_errorcode} "
     else
         __error_ps1=""
     fi
@@ -25,7 +25,7 @@ function __preamble_ps1() {
 
     # Python virtual environment?
     if [ -v VIRTUAL_ENV_PROMPT ]; then
-        __venv_ps1="🐍 ${VIRTUAL_ENV_PROMPT} "
+        __venv_ps1="🐍${VIRTUAL_ENV_PROMPT} "
     else
         __venv_ps1=""
     fi
