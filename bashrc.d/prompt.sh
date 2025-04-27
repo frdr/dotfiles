@@ -7,6 +7,10 @@ source /usr/share/git/completion/git-prompt.sh
 
 VIRTUAL_ENV_DISABLE_PROMPT=1
 
+PS1="\u@\h:\w\$ "
+
+if [[ ${TERM:-} =~ "color" ]]; then
+
 function __folding_ps1() {
     local _errorcode=$?
 
@@ -44,4 +48,4 @@ function __folding_ps1() {
 
 PROMPT_COMMAND=__folding_ps1
 
-PS1="\u@\h:\w\$ "
+fi
