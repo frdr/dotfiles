@@ -21,7 +21,7 @@ function __folding_ps1() {
     local _num_jobs
     _num_jobs=$( jobs | wc -l )
     if [[ ${_num_jobs} -ne 0 ]]; then
-        PS1="\[\e[0;34m\]⚒ \j\[\e[0m\] ${PS1}"
+        PS1="\[\e[0;33m\]⚒ \j\[\e[0m\] ${PS1}"
     fi
 
     if [[ ${_errorcode} -ne 0 ]]; then
