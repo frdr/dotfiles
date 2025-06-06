@@ -9,7 +9,7 @@ git config set --global alias.last "diff HEAD^..HEAD"
 git config set --global alias.mg mergetool
 git config set --global alias.new "switch -c"
 git config set --global alias.st status
-git config set --global alias.sw sw
+git config set --global alias.sw switch
 
 if command -v meld > /dev/null; then
     git config set --global alias.gmg "mergetool --tool=meld"
