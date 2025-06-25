@@ -19,6 +19,12 @@ _hostname := $(shell hostname)
 	sed -e "s/\$${_bashrc_d_install_user:-}/$(_user)/" \
 		-e "s/\$${_bashrc_d_install_host:-}/$(_hostname)/" < $< > $@
 
+.PHONY: ~/.bashrc.d/fzf.sh
+~/.bashrc.d/fzf.sh: ~/.bashrc.d
+ifneq ($(shell command -v fzf 2> /dev/null), )
+	fzf --bash > $@
+endif
+
 ~/.%: dot/%
 	cp $< $@
 
@@ -27,6 +33,7 @@ install_bash: ~/.bashrc.d \
 	~/.bashrc.d/0options.sh \
 	~/.bashrc.d/browser.sh \
 	~/.bashrc.d/exports.sh \
+	~/.bashrc.d/fzf.sh \
 	~/.bashrc.d/gitalias.sh \
 	~/.bashrc.d/nocaps.sh \
 	~/.bashrc.d/prompt.sh
