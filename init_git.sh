@@ -5,7 +5,7 @@
 
 git config set --global init.defaultBranch main
 git config set --global pull.ff only
-git config set --global alias.last "diff HEAD^..HEAD"
+git config set --global alias.prev "diff HEAD^"
 git config set --global alias.mg mergetool
 git config set --global alias.new "switch -c"
 git config set --global alias.st status
