@@ -5,7 +5,7 @@ help:
 	@echo "the \"clean\" target will delete your ~/.bashrc - use with caution."
 
 .PHONY: install
-install: install_bash copy_dotfiles git_ignore
+install: install_bash copy_dotfiles
 
 ~/.bashrc.d:
 	mkdir -p ~/.bashrc.d
@@ -40,15 +40,6 @@ install_bash: ~/.bashrc.d \
 
 .PHONY: copy_dotfiles
 copy_dotfiles: ~/.editorconfig ~/.bashrc
-
-_gitignore := ~/.config/git/ignore
-_ignore_pat := '.*.sw[po]'
-.PHONY: git_ignore
-git_ignore: $(gitignore)
-	mkdir -p `basename $(_gitignore)`
-	touch $(_gitignore)
-	grep --quiet --fixed-strings $(_ignore_pat) $(_gitignore) || \
-		echo $(_ignore_pat) >> $(_gitignore)
 
 .PHONY: clean
 clean:

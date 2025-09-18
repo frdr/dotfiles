@@ -14,3 +14,11 @@ git config set --global alias.sw switch
 if command -v meld > /dev/null; then
     git config set --global alias.gmg "mergetool --tool=meld"
 fi
+
+_ggi=~/.config/git/ignore
+mkdir -p "$(basename "$_ggi")"
+touch "$_ggi"
+cat "$_ggi" - << EOT | sort -u -o "$_ggi"
+.*.sw[po]
+/tags
+EOT
