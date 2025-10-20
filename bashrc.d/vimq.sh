@@ -7,3 +7,7 @@ function vimq() {
     # shellcheck disable=SC2091
     vim -q <($(fc -nl -1)) +cw
 }
+
+function vimhelp() {
+    vim +"help $*" +only
+}
