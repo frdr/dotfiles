@@ -36,6 +36,7 @@ install_bash: ~/.bashrc.d \
 	~/.bashrc.d/fzf.sh \
 	~/.bashrc.d/gitalias.sh \
 	~/.bashrc.d/nocaps.sh \
+	~/.bashrc.d/pager.sh \
 	~/.bashrc.d/prompt.sh \
 	~/.bashrc.d/vimq.sh
 
