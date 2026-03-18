@@ -8,6 +8,12 @@ function vimq() {
     vim -q <($(fc -nl -1)) +cw
 }
 
+function vimgrep() {
+    local _grep='grep -nH'
+    command -v rg > /dev/null && _grep='rg --vimgrep'
+    vim -q <(${_grep} "$@") +cw
+}
+
 function vimhelp() {
     vim +"help $*" +only
 }
