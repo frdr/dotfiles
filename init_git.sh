@@ -17,7 +17,7 @@ if command -v meld > /dev/null; then
 fi
 
 _ggi=~/.config/git/ignore
-mkdir -p "$(basename "$_ggi")"
+mkdir -p "$(dirname "$_ggi")"
 touch "$_ggi"
 cat "$_ggi" - << EOT | sort -u -o "$_ggi"
 .*.sw[po]
