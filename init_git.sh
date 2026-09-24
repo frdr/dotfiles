@@ -22,5 +22,8 @@ mkdir -p "$(dirname "$_ggi")"
 touch "$_ggi"
 cat "$_ggi" - << EOT | sort -u -o "$_ggi"
 .*.sw[po]
-/tags
+tags
+cscope.out
+cscope.in.out
+cscope.po.out
 EOT
