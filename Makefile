@@ -33,6 +33,7 @@ install_bash: ~/.bashrc.d \
 	~/.bashrc.d/0options.sh \
 	~/.bashrc.d/browser.sh \
 	~/.bashrc.d/exports.sh \
+	~/.bashrc.d/find.sh \
 	~/.bashrc.d/firejail.sh \
 	~/.bashrc.d/fzf.sh \
 	~/.bashrc.d/gitalias.sh \
